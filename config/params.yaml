@@ -1,0 +1,7 @@
+base:
+  project: salary-prediction-project
+  random_state: 30
+  target_col: Salary
+
+data_source:
+  data_source_path: data/raw/salary_dataset.csv
