@@ -5,3 +5,6 @@ base:
 
 data_source:
   data_source_path: data/raw/salary_dataset.csv
+
+ingest_data:
+  interim_dataset_csv: data/interim/salary_dataset.csv
