@@ -1,8 +1,8 @@
-import os
-import yaml
+import argparse
 import logging
+import os
 import pandas as pd
-from zenml import steps
+from steps import read_config
 
 
 class IngestData:
@@ -24,7 +24,7 @@ class IngestData:
         logging.info(f"Ingesting data from {self.data_path}")
         return pd.read_csv(self.data_path, sep=",", encoding="utf-8")
 
-@steps
+
 def ingest_data(data_path: str) -> pd.DataFrame:
     """
     Ingest data from the data_path
@@ -39,3 +39,14 @@ def ingest_data(data_path: str) -> pd.DataFrame:
     except Exception as e:
         logging.error(f"Error while ingesting data: {e}")
         raise e
+
+
+if __name__ == '__main__':
+    args = argparse.ArgumentParser()
+    default_config_path = os.path.join("config", "params.yaml")
+    args.add_argument('--config', type=str, default=default_config_path)
+    parsed_args = args.parse_args()
+    config = read_config.read_config(config_path=parsed_args.config)
+    data_path = config['data_source']['data_source_path']
+    dataframe = ingest_data(data_path)
+    print(dataframe)

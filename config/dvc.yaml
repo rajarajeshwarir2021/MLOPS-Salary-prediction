@@ -1,1 +1,16 @@
 stages:
+  preprocess_data:
+    cmd: python ../steps/preprocess_data.py --config=params.yaml
+    deps:
+      - ../steps/read_config.py
+      - ../steps/ingest_data.py
+      - ../steps/preprocess_data.py
+      - ../src/label_encoder.py
+      - ../src/one_hot_encoder.py
+      - ../data/raw/salary_dataset.csv
+    outs:
+      - ../data/interim/salary_dataset.csv
+      - ../encoder/OneHotEncoder.joblib
+      - ../encoder/Education_Level_LabelEncoder.joblib
+      - ../encoder/Job_Title_LabelEncoder.joblib
+      - ../encoder/label_map.json

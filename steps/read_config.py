@@ -1,11 +1,10 @@
+import argparse
+import logging
 import os
 import yaml
-import logging
-import pandas as pd
-from zenml import steps
 
 
-class ReadConfig(object):
+class ReadConfig():
     """
     A class for reading the parameters from the given yaml config file.
     """
@@ -27,7 +26,7 @@ class ReadConfig(object):
             params = yaml.safe_load(f)
         return params
 
-@steps
+
 def read_config(config_path: str) -> object:
     """
     Read the parameters from the given config file
@@ -42,3 +41,12 @@ def read_config(config_path: str) -> object:
     except Exception as e:
         logging.error(f"Error while reading parameters: {e}")
         raise e
+
+
+if __name__ == '__main__':
+    args = argparse.ArgumentParser()
+    default_config_path = os.path.join("config", "params.yaml")
+    args.add_argument('--config', type=str, default=default_config_path)
+    parsed_args = args.parse_args()
+    config = read_config(config_path=parsed_args.config)
+    print(config)
