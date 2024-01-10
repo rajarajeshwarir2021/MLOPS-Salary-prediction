@@ -14,3 +14,13 @@ stages:
       - ../encoder/Education_Level_LabelEncoder.joblib
       - ../encoder/Job_Title_LabelEncoder.joblib
       - ../encoder/label_map.json
+  split_data:
+    cmd: python ../steps/split_data.py --config=params.yaml
+    deps:
+      - ../steps/split_data.py
+      - ../steps/read_config.py
+      - ../steps/ingest_data.py
+      - ../data/interim/salary_dataset.csv
+    outs:
+      - ../data/processed/train_salary_dataset.csv
+      - ../data/processed/test_salary_dataset.csv
