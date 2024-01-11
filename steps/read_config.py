@@ -2,7 +2,7 @@ import argparse
 import logging
 import os
 import yaml
-
+from zenml import steps
 
 class ReadConfig():
     """
@@ -26,7 +26,7 @@ class ReadConfig():
             params = yaml.safe_load(f)
         return params
 
-
+@steps
 def read_config(config_path: str) -> object:
     """
     Read the parameters from the given config file

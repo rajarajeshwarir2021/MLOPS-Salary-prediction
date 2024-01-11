@@ -2,6 +2,7 @@ import argparse
 import logging
 import os
 import pandas as pd
+from zenml import steps
 from src import label_encoder, one_hot_encoder
 from steps import read_config, ingest_data
 
@@ -58,7 +59,7 @@ class PreProcessData:
 
         return self.dataframe
 
-
+@steps
 def preprocess_data(dataframe: pd.DataFrame, processed_data_path: str) -> pd.DataFrame:
     """
     Preprocess the given dataframe

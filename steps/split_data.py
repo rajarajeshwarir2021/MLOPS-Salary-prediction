@@ -2,6 +2,7 @@ import argparse
 import logging
 import os
 from sklearn.model_selection import train_test_split
+from zenml import steps
 from steps import read_config, ingest_data
 
 
@@ -33,7 +34,7 @@ class SplitData:
         train.to_csv(self.train_data_path, sep=",", encoding="utf-8", index=False)
         test.to_csv(self.test_data_path, sep=",", encoding="utf-8", index=False)
 
-
+@steps
 def split_data(config_path: str):
     """
     Splits the data into train and test set
@@ -42,7 +43,7 @@ def split_data(config_path: str):
     """
     try:
         data_split = SplitData(config_path)
-        return data_split.split_data()
+        data_split.split_data()
     except Exception as e:
         logging.error(f"Error while splitting data: {e}")
         raise e

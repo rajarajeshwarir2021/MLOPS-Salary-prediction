@@ -4,6 +4,7 @@ import json
 import logging
 import os
 from sklearn.ensemble import RandomForestRegressor
+from zenml import steps
 from steps import read_config, ingest_data
 from src import evaluate_model
 
@@ -108,6 +109,7 @@ class Model:
         model_file_path = os.path.join(self.model_path, "model.joblib")
         joblib.dump(self.model, model_file_path)
 
+@steps
 def train_and_evaluate_model(config_path: str):
     """
     Create, train and evaluate the model.
