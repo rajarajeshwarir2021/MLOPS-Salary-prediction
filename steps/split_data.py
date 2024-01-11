@@ -15,6 +15,7 @@ class SplitData:
             config_path: path to the params.yaml config file
         """
         self.config = read_config.read_config(config_path=config_path)
+
         self.random_state = self.config["base"]["random_state"]
         self.interim_data_path = self.config['preprocess_data_source']['interim_dataset_csv']
         self.train_data_path = self.config['processed_data_source']['train_data_path']

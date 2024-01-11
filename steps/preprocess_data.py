@@ -8,23 +8,23 @@ from steps import read_config, ingest_data
 
 class PreProcessData:
     """
-    A class for pre-processing data from the data_path.
+    A class for pre-processing a dataframe.
     """
-    def __init__(self, config_path: str):
+    def __init__(self, dataframe: pd.DataFrame, preprocessed_data_path):
         """
         Args:
-            config_path: path to the params.yaml config file
+            dataframe: a pandas dataframe to clean and pre-process
+            preprocessed_data_path: path to store the pre-processed dataframe
         """
-        self.config = read_config.read_config(config_path=config_path)
-        self.dataframe = ingest_data.ingest_data(config_path=config_path)
-        self.interim_data_path = self.config['preprocess_data_source']['interim_dataset_csv']
+        self.dataframe = dataframe
+        self.preprocessed_data_path = preprocessed_data_path
 
-    def process_data(self):
+    def pre_process_data(self):
         """
         Processing the data from the dataframe.
         Returns: A pandas DataFrame
         """
-        logging.info(f"Processing data from the given dataframe")
+        logging.info(f"Pre-processing the given dataframe")
 
         # Step 1: Remove rows with missing values
         self.dataframe = self.dataframe.dropna(how='any', axis=0)
@@ -54,22 +54,23 @@ class PreProcessData:
         self.dataframe = pd.DataFrame(self.dataframe)
 
         # Step 9: Save the dataframe
-        self.dataframe.to_csv(self.interim_data_path, sep=",", encoding="utf-8", index=False)
+        self.dataframe.to_csv(self.preprocessed_data_path, sep=",", encoding="utf-8", index=False)
 
         return self.dataframe
 
 
-def preprocess_data(config_path: str) -> pd.DataFrame:
+def preprocess_data(dataframe: pd.DataFrame, processed_data_path: str) -> pd.DataFrame:
     """
     Preprocess the given dataframe
     Args:
-        config_path: path to the config file
+        dataframe: pandas dataframe to process
+        processed_data_path: path to store the processed data
     Returns:
         A pandas Dataframe
     """
     try:
-        preprocess_data = PreProcessData(config_path)
-        return preprocess_data.process_data()
+        process_data = PreProcessData(dataframe, processed_data_path)
+        return process_data.pre_process_data()
     except Exception as e:
         logging.error(f"Error while pre-processing data: {e}")
         raise e
@@ -80,5 +81,9 @@ if __name__ == '__main__':
     default_config_path = os.path.join("config", "params.yaml")
     args.add_argument('--config', type=str, default=default_config_path)
     parsed_args = args.parse_args()
-    processed_dataframe = preprocess_data(config_path=parsed_args.config)
-    print(processed_dataframe)
+
+    config = read_config.read_config(config_path=parsed_args.config)
+    raw_data_path = config['data_source']['data_source_path']
+    interim_data_path = config['preprocess_data_source']['interim_dataset_csv']
+    dataframe = ingest_data.ingest_data(data_path=raw_data_path)
+    processed_dataframe = preprocess_data(dataframe, interim_data_path)

@@ -48,4 +48,5 @@ if __name__ == '__main__':
     default_config_path = os.path.join("config", "params.yaml")
     args.add_argument('--config', type=str, default=default_config_path)
     parsed_args = args.parse_args()
+
     config = read_config(config_path=parsed_args.config)
