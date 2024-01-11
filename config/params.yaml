@@ -1,7 +1,7 @@
 base:
   project: salary-prediction-project
   random_state: 30
-  target_col: Salary
+  target_col: 5
 
 data_source:
   data_source_path: data/raw/salary_dataset.csv
@@ -13,3 +13,14 @@ processed_data_source:
   train_data_path: data/processed/train_salary_dataset.csv
   test_data_path: data/processed/test_salary_dataset.csv
   test_size: 0.2
+
+estimators:
+  RandomForestRegressor:
+    params:
+      n_estimators: 10
+
+model_dir: models
+
+reports:
+  params: reports/params.json
+  scores: reports/scores.json

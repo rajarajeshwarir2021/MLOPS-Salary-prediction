@@ -9,13 +9,12 @@ class IngestData:
     """
     A class for ingesting data from the data_path.
     """
-    def __init__(self, config_path: str):
+    def __init__(self, data_path: str):
         """
         Args:
-            config_path: path to the params.yaml config file
+            data_path: path to the data to be ingested
         """
-        self.config = read_config.read_config(config_path=config_path)
-        self.data_path = self.config['data_source']['data_source_path']
+        self.data_path = data_path
 
     def get_data(self):
         """
@@ -26,16 +25,16 @@ class IngestData:
         return pd.read_csv(self.data_path, sep=",", encoding="utf-8")
 
 
-def ingest_data(config_path: str) -> pd.DataFrame:
+def ingest_data(data_path: str) -> pd.DataFrame:
     """
     Ingest data from the data_path
     Args:
-        config_path: path to the config file
+        data_path: path to the data to ingest
     Returns:
         A pandas Dataframe
     """
     try:
-        ingest_data = IngestData(config_path)
+        ingest_data = IngestData(data_path)
         return ingest_data.get_data()
     except Exception as e:
         logging.error(f"Error while ingesting data: {e}")
@@ -47,5 +46,7 @@ if __name__ == '__main__':
     default_config_path = os.path.join("config", "params.yaml")
     args.add_argument('--config', type=str, default=default_config_path)
     parsed_args = args.parse_args()
-    dataframe = ingest_data(config_path=parsed_args.config)
+    config = read_config.read_config(config_path=parsed_args.config)
+    data_path = config['data_source']['data_source_path']
+    dataframe = ingest_data(data_path=data_path)
 
