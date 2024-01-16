@@ -27,9 +27,9 @@ stages:
       - ../data/processed/test_salary_dataset.csv
 
   train_and_evaluate:
-    cmd: python ../steps/train_and_evaluate_model.py --config=params.yaml
+    cmd: python ../steps/train_model.py --config=params.yaml
     deps:
-      - ../steps/train_and_evaluate_model.py
+      - ../steps/train_model.py
       - data/processed/train_salary_dataset.csv
       - data/processed/test_salary_dataset.csv
     params:

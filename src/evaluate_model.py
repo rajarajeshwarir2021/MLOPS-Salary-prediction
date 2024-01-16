@@ -1,7 +1,36 @@
+from abc import ABC, abstractmethod
 import logging
 import numpy as np
 import pandas as pd
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+
+
+class EvaluateModel(ABC):
+    """
+    Abstract class for evaluating a model.
+    """
+    def __init__(self, actual: pd.DataFrame, predict: pd.DataFrame):
+        """
+        Args:
+            actual: pandas dataframe of actual values
+            predict: pandas dataframe of predicted values
+        """
+
+    @abstractmethod
+    def calculate_mse(self):
+        pass
+
+    @abstractmethod
+    def calculate_rmse(self):
+        pass
+
+    @abstractmethod
+    def calculate_mae(self):
+        pass
+
+    @abstractmethod
+    def calculate_r2_score(self):
+        pass
 
 
 class EvaluateModel():
@@ -80,3 +109,47 @@ def evaluate_metrics(actual: pd.DataFrame, predict: pd.DataFrame) -> object:
     except Exception as e:
         logging.error(f"Error while Evaluating the model: {e}")
         raise e
+
+
+class Model:
+    """
+    A class for creating a model and training it with the train set and testing it with the test set.
+    """
+
+    def __init__(self, config_path: str):
+
+        self.y_predict = None
+        self.evaluate_metrics = None
+
+
+        self.metrics_file = self.config["reports"]["scores"]
+
+
+
+    def evaluate(self):
+        """
+        Evaluate the model.
+        """
+        logging.info(f"Evaluating the model")
+        self.evaluate_metrics = evaluate_model.evaluate_metrics(self.y_test, self.y_predict)
+        print(f"ElasticNet model (n_estimators={self.n_estimators}):")
+        print(f"MSE: {self.evaluate_metrics['MSE']}")
+        print(f"RMSE: {self.evaluate_metrics['RMSE']}")
+        print(f"MAE: {self.evaluate_metrics['MAE']}")
+        print(f"R2: {self.evaluate_metrics['R2']}")
+
+
+
+    def save_metrics(self):
+        """
+        Save the metrics.
+        """
+        logging.info(f"Saving the metrics")
+        with open(self.metrics_file, "w") as f:
+            metrics = {
+                "MSE" : self.evaluate_metrics['MSE'],
+                "RMSE" : self.evaluate_metrics['RMSE'],
+                "MAE" : self.evaluate_metrics['MAE'],
+                "R2" : self.evaluate_metrics['R2']
+            }
+            json.dump(metrics, f, indent=4)
