@@ -6,6 +6,7 @@ import logging
 import os
 from sklearn.ensemble import RandomForestRegressor
 
+from src.evaluate_model import EvaluateRegressorModel
 from src.ingest_data import IngestData
 from src.read_config import ReadConfig
 
@@ -155,6 +156,9 @@ if __name__ == '__main__':
     regressor.save_parameters()
     print(y_test)
     print(y_predict)
+    eval_model = EvaluateRegressorModel(y_test, y_predict)
+    eval_model.calculate_metrics()
+    eval_model.save_metrics(params)
 
 
 
