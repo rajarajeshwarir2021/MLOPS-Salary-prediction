@@ -16,9 +16,9 @@ stages:
       - ../encoder/label_map.json
 
   split_data:
-    cmd: python ../steps/split_dataset.py --config=params.yaml
+    cmd: python ../steps/split_data.py --config=params.yaml
     deps:
-      - ../steps/split_dataset.py
+      - ../steps/split_data.py
       - ../steps/read_config_params.py
       - ../steps/get_data.py
       - ../data/interim/salary_dataset.csv
