@@ -69,7 +69,7 @@ class RandomForestRegressorModel(Model):
             logging.error(f"Error while training model: {e}")
             raise e
 
-    def test(self):
+    def test(self) -> dict:
         """
         Test the model with test dataset.
         """
@@ -77,7 +77,7 @@ class RandomForestRegressorModel(Model):
         x_test, y_test = self.get_test_dataset()
         try:
             y_predict = self.model.predict(x_test)
-            return y_test, y_predict
+            return {'actual': y_test, 'predict': y_predict}
         except Exception as e:
             logging.error(f"Error while training model: {e}")
             raise e
@@ -87,7 +87,7 @@ class RandomForestRegressorModel(Model):
         Save the model.
         """
         logging.info(f"Saving the model")
-        model_path = self.config_params["model_path"]
+        model_path = self.config_params["model_dir"]
         os.makedirs(model_path, exist_ok=True)
         model_file_path = os.path.join(model_path, "model.joblib")
         joblib.dump(self.model, model_file_path)

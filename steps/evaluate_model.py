@@ -5,7 +5,7 @@ from src.evaluate_model import EvaluateRegressorModel
 
 
 @step
-def evaluate_regressor_model(actual, predict, config_params: object):
+def evaluate_regressor_model(result: dict, config_params: object):
     """
     Evaluate a Regressor model.
     Args:
@@ -15,7 +15,7 @@ def evaluate_regressor_model(actual, predict, config_params: object):
     """
     logging.info(f"Evaluating Random Forest Regressor model")
     try:
-        eval_model = EvaluateRegressorModel(actual, predict)
+        eval_model = EvaluateRegressorModel(result['actual'], result['predict'])
         eval_model.calculate_metrics()
         eval_model.save_metrics(config_params)
     except Exception as e:

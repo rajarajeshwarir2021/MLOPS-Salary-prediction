@@ -5,7 +5,7 @@ from src.train_model import RandomForestRegressorModel
 
 
 @step
-def train_regressor_model(config_params: object) -> list:
+def train_regressor_model(config_params: object) -> dict:
     """
     Create and Train a Regressor model.
     Args:
@@ -15,10 +15,10 @@ def train_regressor_model(config_params: object) -> list:
     try:
         regressor = RandomForestRegressorModel(config_params)
         regressor.train()
-        y_test, y_predict = regressor.test()
+        results = regressor.test()
         regressor.save_parameters()
         regressor.save_model()
-        return y_test, y_predict
+        return results
     except Exception as e:
         logging.error(f"Error while creating and training the model: {e}")
         raise e
