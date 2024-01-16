@@ -4,7 +4,7 @@ import os
 import pandas as pd
 from zenml import step
 from src import label_encoder, one_hot_encoder, read_config
-from steps import ingest_data
+from steps import get_data
 
 
 class PreProcessData:

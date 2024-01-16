@@ -3,7 +3,7 @@ stages:
     cmd: python ../steps/preprocess_data.py --config=params.yaml
     deps:
       - ../steps/read_config_params.py
-      - ../steps/ingest_data.py
+      - ../steps/get_data.py
       - ../steps/preprocess_data.py
       - ../src/label_encoder.py
       - ../src/one_hot_encoder.py
@@ -20,7 +20,7 @@ stages:
     deps:
       - ../steps/split_data.py
       - ../steps/read_config_params.py
-      - ../steps/ingest_data.py
+      - ../steps/get_data.py
       - ../data/interim/salary_dataset.csv
     outs:
       - ../data/processed/train_salary_dataset.csv

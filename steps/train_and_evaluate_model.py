@@ -5,7 +5,7 @@ import logging
 import os
 from sklearn.ensemble import RandomForestRegressor
 from zenml import step
-from steps import ingest_data
+from steps import get_data
 from src import evaluate_model, read_config
 
 

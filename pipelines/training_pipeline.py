@@ -1,6 +1,6 @@
 from src.read_config import read_config
 from steps.get_data_path import get_data_path
-from steps.ingest_data import ingest_data
+from steps.get_data import ingest_data
 from steps.preprocess_data import preprocess_data
 from steps.split_data import split_data
 from steps.train_and_evaluate_model import train_and_evaluate_model

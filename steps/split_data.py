@@ -3,7 +3,7 @@ import logging
 import os
 from sklearn.model_selection import train_test_split
 from zenml import step
-from steps import ingest_data
+from steps import get_data
 from src import read_config
 
 
@@ -24,7 +24,7 @@ class SplitData:
         self.test_data_path = self.config['processed_data_source']['test_data_path']
         self.split_ratio = self.config['processed_data_source']['test_size']
 
-        self.dataframe = ingest_data.ingest_data(self.interim_data_path)
+        self.dataframe = get_data.ingest_data(self.interim_data_path)
 
     def split_data(self):
         """
