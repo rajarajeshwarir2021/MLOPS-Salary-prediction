@@ -2,23 +2,23 @@ import argparse
 import logging
 import os
 import pandas as pd
-from zenml import steps
-from src import label_encoder, one_hot_encoder
-from steps import read_config, ingest_data
+from zenml import step
+from src import label_encoder, one_hot_encoder, read_config
+from steps import ingest_data
 
 
 class PreProcessData:
     """
     A class for pre-processing a dataframe.
     """
-    def __init__(self, dataframe: pd.DataFrame, preprocessed_data_path):
+    def __init__(self, dataframe: pd.DataFrame, config):
         """
         Args:
             dataframe: a pandas dataframe to clean and pre-process
-            preprocessed_data_path: path to store the pre-processed dataframe
+            config: configuration object
         """
         self.dataframe = dataframe
-        self.preprocessed_data_path = preprocessed_data_path
+        self.interim_data_path = config['preprocess_data_source']['interim_dataset_csv']
 
     def pre_process_data(self):
         """
@@ -55,22 +55,22 @@ class PreProcessData:
         self.dataframe = pd.DataFrame(self.dataframe)
 
         # Step 9: Save the dataframe
-        self.dataframe.to_csv(self.preprocessed_data_path, sep=",", encoding="utf-8", index=False)
+        self.dataframe.to_csv(self.interim_data_path, sep=",", encoding="utf-8", index=False)
 
         return self.dataframe
 
-@steps
-def preprocess_data(dataframe: pd.DataFrame, processed_data_path: str) -> pd.DataFrame:
+@step
+def preprocess_data(dataframe: pd.DataFrame, config: object) -> pd.DataFrame:
     """
     Preprocess the given dataframe
     Args:
         dataframe: pandas dataframe to process
-        processed_data_path: path to store the processed data
+        config: configuration object
     Returns:
         A pandas Dataframe
     """
     try:
-        process_data = PreProcessData(dataframe, processed_data_path)
+        process_data = PreProcessData(dataframe, config)
         return process_data.pre_process_data()
     except Exception as e:
         logging.error(f"Error while pre-processing data: {e}")
@@ -87,4 +87,4 @@ if __name__ == '__main__':
     raw_data_path = config['data_source']['data_source_path']
     interim_data_path = config['preprocess_data_source']['interim_dataset_csv']
     dataframe = ingest_data.ingest_data(data_path=raw_data_path)
-    processed_dataframe = preprocess_data(dataframe, interim_data_path)
+    processed_dataframe = preprocess_data(dataframe, config)

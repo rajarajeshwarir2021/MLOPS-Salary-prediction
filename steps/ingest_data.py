@@ -2,8 +2,8 @@ import argparse
 import logging
 import os
 import pandas as pd
-from zenml import steps
-from steps import read_config
+from zenml import step
+from src import read_config
 
 
 class IngestData:
@@ -15,7 +15,10 @@ class IngestData:
         Args:
             data_path: path to the data to be ingested
         """
-        self.data_path = data_path
+        if not data_path.endswith('.csv'):
+            self.data_path = data_path['data_source']['data_source_path']
+        else:
+            self.data_path = data_path
 
     def get_data(self):
         """
@@ -25,7 +28,7 @@ class IngestData:
         logging.info(f"Ingesting data from {self.data_path}")
         return pd.read_csv(self.data_path, sep=",", encoding="utf-8")
 
-@steps
+@step
 def ingest_data(data_path: str) -> pd.DataFrame:
     """
     Ingest data from the data_path

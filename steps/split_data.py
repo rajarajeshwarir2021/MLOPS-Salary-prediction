@@ -2,8 +2,9 @@ import argparse
 import logging
 import os
 from sklearn.model_selection import train_test_split
-from zenml import steps
-from steps import read_config, ingest_data
+from zenml import step
+from steps import ingest_data
+from src import read_config
 
 
 class SplitData:
@@ -34,8 +35,8 @@ class SplitData:
         train.to_csv(self.train_data_path, sep=",", encoding="utf-8", index=False)
         test.to_csv(self.test_data_path, sep=",", encoding="utf-8", index=False)
 
-@steps
-def split_data(config_path: str):
+@step
+def split_data(config_path: str) -> None:
     """
     Splits the data into train and test set
     Args:
