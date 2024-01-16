@@ -85,7 +85,7 @@ class EvaluateRegressorModel():
         """
         Print the metrics.
         """
-        print(f"MSE: {self.mse}\nRMSE: {self.rmse}\nMAE: {self.mae}\nR2: {self.r2_score}")
+        print(f"Regressor model: \nMSE: {self.mse}\nRMSE: {self.rmse}\nMAE: {self.mae}\nR2: {self.r2_score}")
 
     def calculate_mse(self):
         """
