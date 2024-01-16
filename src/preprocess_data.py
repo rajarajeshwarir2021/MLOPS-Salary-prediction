@@ -3,7 +3,11 @@ import argparse
 import logging
 import os
 import pandas as pd
-from src import label_encoder, one_hot_encoder
+from src.encode_category import OneHotEncodeColumn, LabelEncodeColumn
+from src.ingest_data import IngestData
+from src.read_config import ReadConfig
+from src.save_dataframe import SaveDataframeCSV
+from src.save_schema import SaveSchemaJSON
 
 
 class DataPreProcess(ABC):
@@ -41,34 +45,6 @@ class CleanData(DataPreProcess):
             raise e
 
 
-class EncodeCategoricalData(DataPreProcess):
-    """
-    A class to encode the categorical data
-    """
-    def pre_process_data(self, data: pd.DataFrame) -> pd.DataFrame:
-        """
-        Encode Categorical data using Label or One Hot encoding
-        Args:
-            data: a pandas dataframe to be encoded
-        Returns: a pandas dataframe
-        """
-        logging.info(f"Encoding categorical columns in the given dataframe")
-        try:
-            # Step 1: Label Encode rankable Categorical columns
-            dataframe = label_encoder.label_encode(data, 'Education Level')
-            dataframe = label_encoder.label_encode(dataframe, 'Job Title')
-
-            # Step 2: One Hot Encode non-rankable Categorical Data Column
-            dataframe = one_hot_encoder.one_hot_encode(dataframe, 0)
-
-            # Step 3: Convert numpy array to pandas DataFrame
-            dataframe = pd.DataFrame(dataframe)
-            return dataframe
-        except Exception as e:
-            logging.error(f"Error while encoding categorical data: {e}")
-            raise e
-
-
 class RefineData(DataPreProcess):
     """
     A class to refine the dataframe
@@ -91,66 +67,39 @@ class RefineData(DataPreProcess):
             raise e
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class PreProcessData:
+class EncodeCategoricalData(DataPreProcess):
     """
-    A class for pre-processing a dataframe.
+    A class to encode the categorical data
     """
-    def __init__(self, dataframe: pd.DataFrame, config):
+    def pre_process_data(self, data: pd.DataFrame) -> pd.DataFrame:
         """
+        Encode Categorical data using Label or One Hot encoding
         Args:
-            dataframe: a pandas dataframe to clean and pre-process
-            config: configuration object
+            data: a pandas dataframe to be encoded
+        Returns: a pandas dataframe
         """
-        self.dataframe = dataframe
-        self.interim_data_path = config['preprocess_data_source']['interim_dataset_csv']
+        logging.info(f"Encoding categorical columns in the given dataframe")
+        try:
+            # Step 1: Label Encode rankable Categorical columns and save the encoder
+            encoder = LabelEncodeColumn(data, 'Education_Level')
+            dataframe = encoder.encode()
+            encoder.save_encoder()
+            encoder = LabelEncodeColumn(dataframe, 'Job_Title')
+            dataframe = encoder.encode()
+            encoder.save_encoder()
 
-    def pre_process_data(self):
-        """
-        Processing the data from the dataframe.
-        Returns: A pandas DataFrame
-        """
+            # Step 2: One Hot Encode non-rankable Categorical Data Column and save the encoder
+            encoder = OneHotEncodeColumn(dataframe, 0)
+            dataframe = encoder.encode()
+            encoder.save_encoder()
 
+            # Step 3: Convert numpy array to pandas DataFrame
+            dataframe = pd.DataFrame(dataframe)
 
-
-
-
-
-        return self.dataframe
-
-@step
-def preprocess_data(dataframe: pd.DataFrame, config: object) -> pd.DataFrame:
-    """
-    Preprocess the given dataframe
-    Args:
-        dataframe: pandas dataframe to process
-        config: configuration object
-    Returns:
-        A pandas Dataframe
-    """
-    try:
-        process_data = PreProcessData(dataframe, config)
-        return process_data.pre_process_data()
-    except Exception as e:
-        logging.error(f"Error while pre-processing data: {e}")
-        raise e
+            return dataframe
+        except Exception as e:
+            logging.error(f"Error while encoding categorical data: {e}")
+            raise e
 
 
 if __name__ == '__main__':
@@ -159,8 +108,21 @@ if __name__ == '__main__':
     args.add_argument('--config', type=str, default=default_config_path)
     parsed_args = args.parse_args()
 
-    config = read_config.read_config(config_path=parsed_args.config)
-    raw_data_path = config['data_source']['data_source_path']
-    interim_data_path = config['preprocess_data_source']['interim_dataset_csv']
-    dataframe = ingest_data.ingest_data(data_path=raw_data_path)
-    processed_dataframe = preprocess_data(dataframe, config)
+    config = ReadConfig(config_path=parsed_args.config)
+    params = config.read_params()
+    data_path = params['data_source']['data_source_path']
+    df = IngestData(data_path=data_path)
+    dataframe = df.ingest_data()
+    clean_data = CleanData()
+    dataframe = clean_data.pre_process_data(dataframe)
+    refine_data = RefineData()
+    dataframe = refine_data.pre_process_data(dataframe)
+    save_sch = SaveSchemaJSON()
+    save_sch.save_schema(dataframe, params)
+    encode_data = EncodeCategoricalData()
+    dataframe = encode_data.pre_process_data(dataframe)
+    save_df = SaveDataframeCSV()
+    save_df.save_dataframe(dataframe, params)
+    print(dataframe)
+
+

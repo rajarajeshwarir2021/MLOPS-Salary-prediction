@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 import logging
+import os
 import pandas as pd
 
 
@@ -9,7 +10,7 @@ class SaveSchema(ABC):
     """
 
     @abstractmethod
-    def save_dataframe(self, data: pd.DataFrame, config_params: object):
+    def save_schema(self, data: pd.DataFrame, config_params: object):
         pass
 
 
@@ -26,6 +27,8 @@ class SaveSchemaJSON(SaveSchema):
         """
         logging.info(f"Saving given dataframe schema in JSON format")
         schema_path = config_params['preprocess_data_source']['dataset_schema_json']
+        os.makedirs(schema_path, exist_ok=True)
+        schema_path = os.path.join(schema_path, "salary_dataset_schema.json")
 
         try:
             # Save the min max values of the dataframe
