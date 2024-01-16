@@ -17,7 +17,7 @@ def get_data(config_params: object) -> pd.DataFrame:
     data_path = config_params['data_source']['data_source_path']
     try:
         ingest_data = IngestData(data_path)
-        return ingest_data.get_data()
+        return ingest_data.ingest_data()
     except Exception as e:
         logging.error(f"Error while ingesting data: {e}")
         raise e
