@@ -14,9 +14,10 @@ def refine_data(dataframe: pd.DataFrame) -> pd.DataFrame:
     Returns:
         A pandas Dataframe
     """
+    logging.info(f"Pre-processing data - refining data")
     try:
         process_data = RefineData()
         return process_data.pre_process_data(dataframe)
     except Exception as e:
-        logging.error(f"Error while pre-processing data: {e}")
+        logging.error(f"Error while pre-processing data - refining data: {e}")
         raise e

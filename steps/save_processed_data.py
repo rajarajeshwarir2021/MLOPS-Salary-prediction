@@ -13,9 +13,10 @@ def save_dataframe(dataframe: pd.DataFrame, config_params: object):
         dataframe: pandas dataframe to refine
         config_params: config object containing path to processed data folder
     """
+    logging.info(f"Saving processed dataframe")
     try:
         save_df = SaveDataframeCSV()
         save_df.save_dataframe(dataframe, config_params)
     except Exception as e:
-        logging.error(f"Error while saving processed data: {e}")
+        logging.error(f"Error while saving processed dataframe: {e}")
         raise e

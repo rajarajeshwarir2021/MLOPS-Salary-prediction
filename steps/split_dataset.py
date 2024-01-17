@@ -13,6 +13,7 @@ def split_data(dataframe: pd.DataFrame, config_params: object) -> None:
         dataframe: a pandas dataframe
         config_params: config object containing parameters to split the dataset
     """
+    logging.info(f"Splitting dataset")
     try:
         split_df = SplitDataframe()
         split_df.split_data(dataframe, config_params)

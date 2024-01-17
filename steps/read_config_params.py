@@ -12,9 +12,10 @@ def read_config(config_path: str) -> object:
     Returns:
         An object
     """
+    logging.info(f"Reading configuration parameters")
     try:
         read_config = ReadConfig(config_path)
         return read_config.read_params()
     except Exception as e:
-        logging.error(f"Error while reading parameters: {e}")
+        logging.error(f"Error while reading configuration parameters: {e}")
         raise e

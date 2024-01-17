@@ -20,6 +20,6 @@ def train_regressor_model(config_params: object) -> dict:
         regressor.save_model()
         return results
     except Exception as e:
-        logging.error(f"Error while creating and training the model: {e}")
+        logging.error(f"Error while creating and training model: {e}")
         raise e
 

@@ -35,5 +35,5 @@ class SaveSchemaJSON(SaveSchema):
             overview = data.describe()
             overview.loc[["min", "max"]].to_json(schema_path)
         except Exception as e:
-            logging.error(f"Error while saving dataframe schema: {e}")
+            logging.error(f"Error while saving dataframe schema in JSON format: {e}")
             raise e
