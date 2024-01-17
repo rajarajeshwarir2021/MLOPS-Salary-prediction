@@ -1,12 +1,12 @@
 import logging
-import pandas as pd
+import numpy as np
 from sklearn.base import RegressorMixin
 from zenml import step
 
 from src.develop_model import RandomForestRegressorModel
 
 @step
-def train_model(X_train: pd.DataFrame, y_train: pd.DataFrame, config_params) -> RegressorMixin:
+def train_model(X_train: np.ndarray, y_train: np.ndarray, config_params: object) -> RegressorMixin:
     """
     Create and Train a Regressor model with the ingested data.
     Args:
@@ -19,7 +19,7 @@ def train_model(X_train: pd.DataFrame, y_train: pd.DataFrame, config_params) -> 
         if config_params['model_name'] == "RandomForestRegression":
             random_state = config_params["base"]["random_state"]
             n_estimators = config_params["estimators"]["RandomForestRegressor"]["params"]["n_estimators"]
-            model = RandomForestRegressorModel().train(X_train, y_train, random_state, n_estimators)
+            model = RandomForestRegressorModel().train(X_train, y_train, n_estimators, random_state)
             return model
         else:
             raise ValueError(f"Model {config_params['model_name']} not supported.")

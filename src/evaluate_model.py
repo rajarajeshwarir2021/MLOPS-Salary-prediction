@@ -11,7 +11,7 @@ class Evaluate(ABC):
     """
 
     @abstractmethod
-    def calculate_metrics(self, y_true: pd.DataFrame, y_pred: pd.DataFrame):
+    def calculate_metric(self, y_true: pd.DataFrame, y_pred: pd.DataFrame):
         """
         Calculates the metrics of the model.
         Args:
@@ -27,7 +27,7 @@ class MSE(Evaluate):
     """
     A class to evaluate the mean squared error of a model.
     """
-    def calculate_metrics(self, y_true: pd.Dataframe, y_pred: pd.Dataframe):
+    def calculate_metric(self, y_true: pd.DataFrame, y_pred: pd.DataFrame):
         """
         Calculates the mean squared error of the model.
         Args:
@@ -49,7 +49,7 @@ class RMSE(Evaluate):
     """
     A class to evaluate the root mean squared error of a model.
     """
-    def calculate_metrics(self, y_true: pd.Dataframe, y_pred: pd.Dataframe):
+    def calculate_metric(self, y_true: pd.DataFrame, y_pred: pd.DataFrame):
         """
         Calculates the root mean squared error of the model.
         Args:
@@ -71,7 +71,7 @@ class MAE(Evaluate):
     """
     A class to evaluate the mean absolute error of a model.
     """
-    def calculate_metrics(self, y_true: pd.Dataframe, y_pred: pd.Dataframe):
+    def calculate_metric(self, y_true: pd.DataFrame, y_pred: pd.DataFrame):
         """
         Calculates the mean absolute error of the model.
         Args:
@@ -93,7 +93,7 @@ class R2(Evaluate):
     """
     A class to evaluate the R2 score of a model.
     """
-    def calculate_metrics(self, y_true: pd.Dataframe, y_pred: pd.Dataframe):
+    def calculate_metric(self, y_true: pd.DataFrame, y_pred: pd.DataFrame):
         """
         Calculates the R2 score of the model.
         Args:

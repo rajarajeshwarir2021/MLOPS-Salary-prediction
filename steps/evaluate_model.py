@@ -1,5 +1,6 @@
 import logging
-import pandas as pd
+
+import numpy as np
 from sklearn.base import RegressorMixin
 from typing import Tuple
 from typing_extensions import Annotated
@@ -9,7 +10,7 @@ from src.evaluate_model import MSE, RMSE, MAE, R2
 
 
 @step
-def evaluate_model(model: RegressorMixin, X_test: pd.DataFrame, y_test: pd.DataFrame) -> Tuple[Annotated[float, "mse"], Annotated[float, "rmse"], Annotated[float, "mae"], Annotated[float, "r2"]]:
+def evaluate_model(model: RegressorMixin, X_test: np.ndarray, y_test: np.ndarray) -> list:
     """
     Evaluate a Regressor model.
     Args:
@@ -26,7 +27,7 @@ def evaluate_model(model: RegressorMixin, X_test: pd.DataFrame, y_test: pd.DataF
         rmse = RMSE().calculate_metric(y_test, prediction)
         mae = MAE().calculate_metric(y_test, prediction)
         r2 = R2().calculate_metric(y_test, prediction)
-        return mse, rmse, mae, r2
+        return [mse, rmse, mae, r2]
     except Exception as e:
         logging.error(f"Error while evaluating model: {e}")
         raise e

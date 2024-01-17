@@ -1,14 +1,15 @@
 import logging
-import pandas as pd
+import numpy as np
 from typing import Tuple
 from typing_extensions import Annotated
 from zenml import step
 
-from src.ingest_data import IngestData
+from src.get_dataset_split import SplitDataset
+
 
 
 @step
-def get_dataset(config_params: object) -> Tuple[Annotated[pd.DataFrame, "X_train"], Annotated[pd.DataFrame, "X_test"], Annotated[pd.DataFrame, "y_train"], Annotated[pd.DataFrame, "y_test"]]:
+def get_dataset(config_params: object) -> Tuple[Annotated[np.ndarray, "X_train"], Annotated[np.ndarray, "y_train"], Annotated[np.ndarray, "X_test"], Annotated[np.ndarray, "y_test"]]:
     """
     Get the train and test splits for model training and evaluation
     Args:
@@ -20,12 +21,10 @@ def get_dataset(config_params: object) -> Tuple[Annotated[pd.DataFrame, "X_train
     try:
         train_data_path = config_params['processed_data_source']['train_data_path']
         test_data_path = config_params['processed_data_source']['test_data_path']
-        train_df = IngestData(train_data_path)
-        test_df = IngestData(test_data_path)
-        X_train = train_df.iloc[:, :-1].values
-        y_train = train_df.iloc[:, -1].values
-        X_test = test_df.iloc[:, :-1].values
-        y_test = test_df.iloc[:, -1].values
+        train_split = SplitDataset(train_data_path)
+        X_train, y_train = train_split.split_dataset()
+        test_split = SplitDataset(test_data_path)
+        X_test, y_test = test_split.split_dataset()
         return X_train, y_train, X_test, y_test
     except Exception as e:
         logging.error(f"Error while ingesting train and test datasets: {e}")

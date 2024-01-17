@@ -1,14 +1,18 @@
 from zenml import pipeline
 
-from steps.evaluate_model import evaluate_regressor_model
+from steps.evaluate_model import evaluate_model
+from steps.get_dataset import get_dataset
 from steps.read_config_params import read_config
-from steps.train_model import train_regressor_model
+from steps.save_artifacts import save_artifacts
+from steps.train_model import train_model
 
 
 @pipeline(enable_cache=True)
 def train_pipeline(config_path:str):
     config_params = read_config(config_path)
-    y_result = train_regressor_model(config_params)
-    evaluate_regressor_model(y_result, config_params)
+    X_train, y_train, X_test, y_test = get_dataset(config_params)
+    model = train_model(X_train, y_train, config_params)
+    metrics = evaluate_model(model, X_test, y_test)
+    save_artifacts(model, metrics, config_params)
 
 
