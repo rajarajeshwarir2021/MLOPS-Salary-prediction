@@ -2,27 +2,25 @@ import logging
 import pandas as pd
 from zenml import step
 
-from src.create_dataframe import FormulateInput
-from src.validate_input import ValidateInput
+from src.predict_model import PredictRegressor
 
 
 @step
-def create_input_dataframe(data: dict, config_params: object) -> pd.DataFrame:
+def predict_data(data: pd.DataFrame, config_params: object) -> float:
     """
-    Create the input dataframe expected by the model.
+    Model data prediction for the given user input.
     Args:
         data: the input data
         config_params: configuration parameters object
     Returns:
         A pandas DataFrame
     """
-    logging.info(f"Formulating input dataframe")
+    logging.info(f"Predicting on the given input dataframe")
     try:
-        if ValidateInput.validate(data, config_params):
-            dataframe = FormulateInput.formulate(data, config_params)
-            return dataframe
+        prediction = PredictRegressor().predict(data, config_params)
+        return prediction
     except Exception as e:
-        logging.error(f"Error while formulating input dataframe: {e}")
+        logging.error(f"Error while predicting on the given input dataframe: {e}")
         raise e
 
 
