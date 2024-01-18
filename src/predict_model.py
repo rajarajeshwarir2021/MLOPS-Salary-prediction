@@ -37,6 +37,7 @@ class PredictRegressor(PredictionService):
             model_path = config_params['model']['model_path']
             model = joblib.load(model_path)
             prediction = [model.predict(X_predict)][0]
+            print(prediction)
             logging.info(f"Model prediction completed")
             return prediction
         except Exception as e:
