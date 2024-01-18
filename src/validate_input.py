@@ -1,7 +1,7 @@
-import os.path
 from abc import ABC, abstractmethod
 import json
 import logging
+import os
 
 
 class NotInRange(Exception):
