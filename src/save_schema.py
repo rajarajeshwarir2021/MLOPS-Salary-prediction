@@ -28,7 +28,7 @@ class SaveSchemaJSON(SaveSchema):
         logging.info(f"Saving given dataframe schema in JSON format")
         schema_path = config_params['preprocess_data_source']['dataset_schema_json']
         os.makedirs(schema_path, exist_ok=True)
-        schema_path = os.path.join(schema_path, "salary_dataset_schema.json")
+        schema_path = os.path.join(schema_path, "dataset_schema.json")
 
         try:
             # Save the min max values of the dataframe

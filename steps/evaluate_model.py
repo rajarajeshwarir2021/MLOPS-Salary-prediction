@@ -1,9 +1,6 @@
 import logging
-
 import numpy as np
 from sklearn.base import RegressorMixin
-from typing import Tuple
-from typing_extensions import Annotated
 from zenml import step
 
 from src.evaluate_model import MSE, RMSE, MAE, R2
