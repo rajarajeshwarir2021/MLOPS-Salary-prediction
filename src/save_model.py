@@ -27,7 +27,7 @@ class SaveModelJoblib(SaveModel):
             config_params: configuration parameters object
         """
         try:
-            model_dir_path = config_params['model_dir']
+            model_dir_path = config_params['model']['model_dir']
             os.makedirs(model_dir_path, exist_ok=True)
             model_file_path = os.path.join(model_dir_path, "model.joblib")
             joblib.dump(model, model_file_path)

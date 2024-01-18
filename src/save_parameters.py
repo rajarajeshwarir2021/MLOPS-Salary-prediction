@@ -25,7 +25,7 @@ class SaveParametersJSON(SaveParameters):
         """
         try:
             params_file_path = config_params["reports"]["params"]
-            if config_params['model_name'] == "RandomForestRegression":
+            if config_params['model']['model_name'] == "RandomForestRegression":
                 n_estimators = config_params["estimators"]["RandomForestRegressor"]["params"]["n_estimators"]
                 params = {
                     "n_estimators": n_estimators

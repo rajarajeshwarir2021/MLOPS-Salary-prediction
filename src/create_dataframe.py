@@ -1,9 +1,12 @@
+import argparse
 from abc import ABC, abstractmethod
 import joblib
 import logging
 import numpy as np
 import os
 import pandas as pd
+
+from src.read_config import ReadConfig
 
 
 def create_dataframe(data):
@@ -40,8 +43,11 @@ def one_hot_encode(dataframe, config_params):
     encoder_path = config_params["preprocess_data_source"]['encoder_path']
     encoder_file_path = os.path.join(encoder_path, "OneHotEncoder.joblib")
     one_hot_encoder = load_encoder(encoder_file_path)
-    dataframe = one_hot_encoder.transform(dataframe)
-    return dataframe
+    dataframe = dataframe.assign(Salary=[0])
+    array = one_hot_encoder.transform(dataframe)
+    data = array[:, :-1]
+    data = data.astype(float)
+    return data
 
 class FormulateDataframe(ABC):
     """
@@ -59,9 +65,9 @@ class FormulateDataframe(ABC):
         """
         pass
 
-class FormulateInput(FormulateDataframe):
+class FormulateFormInput(FormulateDataframe):
     """
-    A class for formulating the input dataframe.
+    A class for formulating the input dataframe submitted from a Webform.
     """
     def formulate(self, data, config_params) -> pd.DataFrame:
         """
@@ -75,12 +81,25 @@ class FormulateInput(FormulateDataframe):
         try:
             dataframe = create_dataframe(data)
             dataframe = label_encode(dataframe, config_params)
-            dataframe = one_hot_encode(dataframe, config_params)
-            data = dataframe.values.tolist()[0]
-            data = [list(map(float, data))]
+            data = one_hot_encode(dataframe, config_params)
             logging.info(f"Formulated input dataframe")
             return data
         except Exception as e:
             logging.error(f"Error while formulating input dataframe: {e}")
             raise e
 
+
+if __name__ == '__main__':
+    args = argparse.ArgumentParser()
+    default_config_path = os.path.join("config", "params.yaml")
+    args.add_argument('--config', type=str, default=default_config_path)
+    parsed_args = args.parse_args()
+    DUMMY_DATA = {
+        "Gender": "Male",
+        "Education_Level": "Bachelor's",
+        "Job_Title": "Software Engineer",
+        "Years_of_Experience": 10.0
+    }
+    config = ReadConfig(config_path=parsed_args.config)
+    params = config.read_params()
+    data = FormulateFormInput().formulate(DUMMY_DATA, params)

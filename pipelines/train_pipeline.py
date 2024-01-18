@@ -7,7 +7,7 @@ from steps.save_artifacts import save_artifacts
 from steps.train_model import train_model
 
 
-@pipeline(enable_cache=True)
+@pipeline(enable_cache=False)
 def train_pipeline(config_path:str):
     config_params = read_config(config_path)
     X_train, y_train, X_test, y_test = get_dataset(config_params)

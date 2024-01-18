@@ -1,13 +1,13 @@
 import logging
-import pandas as pd
+import numpy as np
 from zenml import step
 
-from src.create_dataframe import FormulateInput
-from src.validate_input import ValidateInput
+from src.create_dataframe import FormulateFormInput
+from src.validate_input import ValidateUserInput
 
 
 @step
-def create_input_dataframe(data: dict, config_params: object) -> pd.DataFrame:
+def create_input_dataframe(data: dict, config_params: object) -> np.ndarray:
     """
     Create the input dataframe expected by the model.
     Args:
@@ -18,8 +18,9 @@ def create_input_dataframe(data: dict, config_params: object) -> pd.DataFrame:
     """
     logging.info(f"Formulating input dataframe")
     try:
-        if ValidateInput.validate(data, config_params):
-            dataframe = FormulateInput.formulate(data, config_params)
+        validate_input = ValidateUserInput(data, config_params)
+        if validate_input.validate():
+            dataframe = FormulateFormInput().formulate(data, config_params)
             return dataframe
     except Exception as e:
         logging.error(f"Error while formulating input dataframe: {e}")

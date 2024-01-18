@@ -1,12 +1,12 @@
 import logging
-import pandas as pd
+import numpy as np
 from zenml import step
 
 from src.predict_model import PredictRegressor
 
 
 @step
-def predict_data(data: pd.DataFrame, config_params: object) -> float:
+def predict_data(data: np.ndarray, config_params: object) -> float:
     """
     Model data prediction for the given user input.
     Args:
@@ -22,5 +22,4 @@ def predict_data(data: pd.DataFrame, config_params: object) -> float:
     except Exception as e:
         logging.error(f"Error while predicting on the given input dataframe: {e}")
         raise e
-
 
