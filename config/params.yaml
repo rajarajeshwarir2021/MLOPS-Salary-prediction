@@ -21,11 +21,11 @@ estimators:
     params:
       n_estimators: 10
 
-model_name: RandomForestRegression
-model_dir: models
+model:
+  model_name: RandomForestRegression
+  model_dir: models
+  model_path: models/model.joblib
 
 reports:
   params: reports/params.json
   scores: reports/scores.json
-
-webapp_model_dir: models/model.joblib

@@ -76,9 +76,10 @@ class FormulateInput(FormulateDataframe):
             dataframe = create_dataframe(data)
             dataframe = label_encode(dataframe, config_params)
             dataframe = one_hot_encode(dataframe, config_params)
-            df = dataframe.values.tolist()[0]
+            data = dataframe.values.tolist()[0]
+            data = [list(map(float, data))]
             logging.info(f"Formulated input dataframe")
-            return df
+            return data
         except Exception as e:
             logging.error(f"Error while formulating input dataframe: {e}")
             raise e
