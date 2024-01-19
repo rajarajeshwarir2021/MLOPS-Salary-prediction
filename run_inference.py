@@ -21,7 +21,6 @@ def index():
                 data_req = dict(request.form)
                 inference_pipeline(config_path="config/params.yaml", user_data=data_req)
                 response = GetInferenceData().get_inference_data()
-                print(response)
                 return render_template('index.html', response=response)
         except Exception as e:
             print(e)
