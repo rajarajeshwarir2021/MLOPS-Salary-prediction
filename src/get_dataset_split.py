@@ -32,36 +32,3 @@ class SplitDataset:
         except Exception as e:
             logging.error(f"Error while splitting dataset: {e}")
             raise e
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def get_dataset(data_path):
-        """
-        Get the dataset as x_df and y_df.
-        Returns: a tuple of two dataframes
-        """
-        dataframe = RandomForestRegressorModel.get_data(data_path)
-        x_df = dataframe.iloc[:, :-1].values
-        y_df = dataframe.iloc[:, -1].values
-        return x_df, y_df
-
-
-    def get_data(data_path):
-        """
-        Get the data.
-        Returns: a pandas dataframe
-        """
-        data = IngestData(data_path=data_path)
-        return data.ingest_data()
