@@ -29,3 +29,7 @@ model:
 reports:
   params: reports/params.json
   scores: reports/scores.json
+
+web_app:
+  static_dir: web_app/static
+  template_dir: web_app/templates
