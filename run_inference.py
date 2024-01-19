@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, jsonify
 
 from pipelines.inference_pipeline import inference_pipeline
+from src.get_metadata import GetInferenceData
 from src.read_config import ReadConfig
 
 DUMMY_DATA = {
@@ -34,8 +35,8 @@ def index():
                 data_req = dict(request.form)
                 # Run the inference pipeline
                 inference_pipeline(config_path="config/params.yaml", user_data=data_req)
-
-                #print(response)
+                response = GetInferenceData().get_inference_data()
+                print(response)
                 return render_template('index.html', response=response)
         except Exception as e:
             print(e)
