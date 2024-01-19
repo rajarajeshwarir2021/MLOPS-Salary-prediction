@@ -1,6 +1,6 @@
 .navbar{
     height: 100px!important;
-    background-color:#81D6F0;
+    background-color:#3AC1EE;
 }
 
 .navbar-brand{
@@ -8,7 +8,7 @@
     font-weight: normal;
     font-family: Inter;
     color: #FFFFFF;
-    margin-left: 50px;
+    margin-left: 150px;
 }
 
 body{
@@ -18,9 +18,11 @@ body{
 }
 
 .content-block{
-    width: 525px;
-    height: 550px;
+    width: 700px;
+    height: 525px;
     margin: 0 auto;
+    margin-top: 75px;
+    margin-left: 250px;
     font-size: 16px;
     font-color: #3F3F3F;
     font-family: Inter;
@@ -53,14 +55,14 @@ body{
 .predict-button{
     width: 100px;
     height: 35px;
-    margin-left: 265px;
+    margin-left: 209px;
     font-size: 16px;
     font-family: Inter;
     text-align: center;
     text-color: white;
     text-decoration: none;
-    background-color: #81D6F0;
-    border-color: #81D6F0;
+    background-color: #3AC1EE;
+    border-color: #3AC1EE;
     border-radius: 5px;
     padding: 2px 2px;
     display: inline-block;
@@ -68,30 +70,32 @@ body{
 }
 
 .predict-button:hover{
-    background-color: #5ACAEC;
-    border-color: #5ACAEC;
+    background-color: #1FB3E5;
+    border-color: #1FB3E5;
 }
 
 .output-block{
-    width:100px;
+    width:150px;
     height:35px;
-    font-size: 18px;
+    margin-left: 82px;
+    font-size: 16px;
+    text-align: left;
     font-weight: bold;
-    text-align: center;
-    line-height: 60px;
+    display:inline-block;
+    vertical-align: bottom;
     background-color:#DFF5FF;
     border-color:#81D6F0;
-    border-radius:5px
+    border-radius:5px;
 }
 
 .home-button{
     font-size: 18px;
-    background-color: #81D6F0;
-    border-color: #81D6F0;
+    background-color: #3AC1EE;
+    border-color: #3AC1EE;
     padding: 10px 30px 10px 30px;
 }
 
 .home-button:hover{
-    background-color: #5ACAEC;
-    border-color: #5ACAEC;
+    background-color: #1FB3E5;
+    border-color: #1FB3E5;
 }
