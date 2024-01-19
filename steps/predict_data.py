@@ -6,7 +6,7 @@ from src.predict_model import PredictRegressor
 
 
 @step
-def predict_data(data: np.ndarray, config_params: object) -> float:
+def predict_data(data: np.ndarray, config_params: object):
     """
     Model data prediction for the given user input.
     Args:
@@ -18,7 +18,6 @@ def predict_data(data: np.ndarray, config_params: object) -> float:
     logging.info(f"Predicting on the given input dataframe")
     try:
         prediction = PredictRegressor().predict(data, config_params)
-        return prediction
     except Exception as e:
         logging.error(f"Error while predicting on the given input dataframe: {e}")
         raise e
