@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+<!-- Title -->
+{% block title %}
+404
+{% endblock title %}
+
+<!-- Body -->
+{% block body %}
+<br><br><br><br>
+<div class="container content-block">
+    <div class="row" style="text-align: center; color:#3F3F3F;">
+        <div class="col-md-12">
+            <div class="error-template">
+            <br><br><br><br><br>
+            <p style="font-size:60px">404</p>
+            <p style="font-size:40px">Page Not Found</p>
+                <br><br>
+                <div class="error-details">
+                    ERROR: {{ error.error }}
+                </div>
+                <br><br><br><br><br>
+                <div class="error-actions go-home">
+                    <a href="/" class="btn btn-primary btn-lg home-button"><span class="glyphicon glyphicon-home"></span>Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock body %}

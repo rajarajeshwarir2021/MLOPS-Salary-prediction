@@ -1,0 +1,97 @@
+.navbar{
+    height: 100px!important;
+    background-color:#81D6F0;
+}
+
+.navbar-brand{
+    font-size: 40px;
+    font-weight: normal;
+    font-family: Inter;
+    color: #FFFFFF;
+    margin-left: 50px;
+}
+
+body{
+    font-size: 16px;
+    background-color: #DFF5FF;
+    font-family: Inter;
+}
+
+.content-block{
+    width: 525px;
+    height: 550px;
+    margin: 0 auto;
+    font-size: 16px;
+    font-color: #3F3F3F;
+    font-family: Inter;
+    background-color: #FFFFFF;
+    border-radius: 25px;
+}
+
+.tooltip-text {
+    font-size: 12px;
+    font-family: Inter, sans-serif;
+    font-color: #3F3F3F;
+    white-space: nowrap;
+    background-color: #EFEFEF;
+    border-radius: 5px;
+    visibility: hidden;
+    z-index: 1;
+    padding: 2px;
+}
+
+.hover-text:hover .tooltip-text {
+  visibility: visible;
+}
+
+.hover-text {
+  display: inline-block;
+  margin: 2px;
+  text-align: center;
+}
+
+.predict-button{
+    width: 100px;
+    height: 35px;
+    margin-left: 265px;
+    font-size: 16px;
+    font-family: Inter;
+    text-align: center;
+    text-color: white;
+    text-decoration: none;
+    background-color: #81D6F0;
+    border-color: #81D6F0;
+    border-radius: 5px;
+    padding: 2px 2px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.predict-button:hover{
+    background-color: #5ACAEC;
+    border-color: #5ACAEC;
+}
+
+.output-block{
+    width:100px;
+    height:35px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 60px;
+    background-color:#DFF5FF;
+    border-color:#81D6F0;
+    border-radius:5px
+}
+
+.home-button{
+    font-size: 18px;
+    background-color: #81D6F0;
+    border-color: #81D6F0;
+    padding: 10px 30px 10px 30px;
+}
+
+.home-button:hover{
+    background-color: #5ACAEC;
+    border-color: #5ACAEC;
+}
