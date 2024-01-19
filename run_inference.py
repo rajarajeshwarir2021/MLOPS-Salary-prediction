@@ -1,23 +1,9 @@
-import os
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 
 from pipelines.inference_pipeline import inference_pipeline
 from src.get_metadata import GetInferenceData
 from src.read_config import ReadConfig
 
-DUMMY_DATA = {
-    "Gender": "Male",
-    "Education_Level": "Bachelor's",
-    "Job_Title": "Software Engineer",
-    "Years_of_Experience": 15.0
-}
-
-WEB_APP_DATA = {
-    'Gender': 'Male',
-    'Education': "Bachelor's",
-    'Job_Title': 'Software Engineer',
-    'Years_of_Experience': '10'
-}
 
 config = ReadConfig(config_path="config/params.yaml")
 params = config.read_params()
@@ -33,7 +19,6 @@ def index():
         try:
             if request.form:
                 data_req = dict(request.form)
-                # Run the inference pipeline
                 inference_pipeline(config_path="config/params.yaml", user_data=data_req)
                 response = GetInferenceData().get_inference_data()
                 print(response)

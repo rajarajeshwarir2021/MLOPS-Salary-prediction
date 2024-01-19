@@ -1,0 +1,13 @@
+DUMMY_DATA = {
+    "Gender": "Male",
+    "Education_Level": "Bachelor's",
+    "Job_Title": "Software Engineer",
+    "Years_of_Experience": 15.0
+}
+
+WEB_APP_DATA = {
+    'Gender': 'Male',
+    'Education': "Bachelor's",
+    'Job_Title': 'Software Engineer',
+    'Years_of_Experience': '10'
+}
