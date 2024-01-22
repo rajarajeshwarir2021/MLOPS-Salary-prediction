@@ -26,7 +26,7 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray, config_params: object)
     try:
         model = None
         if config_params['model']['model_name'] == "RandomForestRegression":
-            mlflow.sklearn.autolog()
+            mlflow.sklearn.autolog(disable=False)
             random_state = config_params["base"]["random_state"]
             n_estimators = config_params["estimators"]["RandomForestRegressor"]["params"]["n_estimators"]
             model = RandomForestRegressorModel().train(X_train, y_train, n_estimators, random_state)
