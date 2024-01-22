@@ -1,12 +1,17 @@
 import logging
+
+import mlflow
 import numpy as np
 from sklearn.base import RegressorMixin
 from zenml import step
+from zenml.client import Client
 
 from src.evaluate_model import MSE, RMSE, MAE, R2
 
+experiment_tracker = Client().active_stack.experiment_tracker
 
-@step
+
+@step(experiment_tracker=experiment_tracker.name)
 def evaluate_model(model: RegressorMixin, X_test: np.ndarray, y_test: np.ndarray) -> list:
     """
     Evaluate a Regressor model.
@@ -21,9 +26,13 @@ def evaluate_model(model: RegressorMixin, X_test: np.ndarray, y_test: np.ndarray
     try:
         prediction = model.predict(X_test)
         mse = MSE().calculate_metric(y_test, prediction)
+        mlflow.log_metric("MSE", mse)
         rmse = RMSE().calculate_metric(y_test, prediction)
+        mlflow.log_metric("RMSE", rmse)
         mae = MAE().calculate_metric(y_test, prediction)
+        mlflow.log_metric("MAE", mae)
         r2 = R2().calculate_metric(y_test, prediction)
+        mlflow.log_metric("R2", r2)
         return [mse, rmse, mae, r2]
     except Exception as e:
         logging.error(f"Error while evaluating model: {e}")
