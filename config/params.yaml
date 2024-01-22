@@ -38,5 +38,8 @@ mlflow_config:
   artifacts_dir: artifacts
   remote_server_uri: http://127.0.0.1:1234
   experiment_name: RandomForestRegression
-  run_name: mlops_salaryprediction
+  run_name: mlops_salary_prediction
   registered_model_name: RandomForestSalaryPredictionModel
+
+deploy:
+  min_accuracy: 0.95
