@@ -40,6 +40,13 @@ def deploy_trigger(config_params: object, metrics: list) -> bool:
 def continuous_deploy_pipeline(config_path: object, workers: int = 1,
                                timeout: int = DEFAULT_SERVICE_START_STOP_TIMEOUT,
                                ):
+    """
+    Pipeline to deploy continuously
+    Args:
+        config_path: path to the configuration file
+        workers: number of workers to deploy
+        timeout: timeout in seconds
+    """
     config_params = read_config(config_path)
     print(config_params)
     X_train, y_train, X_test, y_test = get_dataset(config_params)
