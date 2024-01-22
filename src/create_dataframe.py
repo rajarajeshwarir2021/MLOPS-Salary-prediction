@@ -18,7 +18,7 @@ def create_dataframe(data):
     df = pd.DataFrame(data, columns=headers)
     return df
 
-def load_encoder(encoder_path):
+def load_encoder(encoder_path: str) -> object:
     """
     Load the encoder
     """
@@ -103,3 +103,4 @@ if __name__ == '__main__':
     config = ReadConfig(config_path=parsed_args.config)
     params = config.read_params()
     data = FormulateFormInput().formulate(DUMMY_DATA, params)
+    print(data)

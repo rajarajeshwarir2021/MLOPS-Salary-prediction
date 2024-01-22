@@ -10,3 +10,5 @@ PyYAML==6.0.1
 scikit-learn==1.4.0
 setuptools==68.2.2
 zenml==0.53.1
+
+rich==13.7.0
